@@ -1,0 +1,54 @@
+Character.GetStatistics.GetStat("hp"); //returns the current HP
+Character.GetStatistics.SetStat("hp", 0); //sets HP to 0
+
+Character.PositionX //read only
+Character.PositionY //read only
+
+//GetUnmodifiedStat()?
+
+//stats use "base" is the unmodified baseline... 
+//currentHP, maxHP, baseMaxHP //is a bar you fill up
+//currentMP, maxMP, baseMaxMP //is a bar you fill up
+//currentBelly, maxBelly, baseMaxBelly //is a bar you fill up, decreased by "hunger" every tick
+//currentHunger, baseHunger
+
+//every item begins with "name" and "sprite"
+
+//containers can't contain containers
+Items.CreateContainer("belt", sprite, "carry", 4); //can be carried, and holds 4 other items
+Items.CreateContainer("chest", sprite, "static", 20); //
+
+Items.CreateWeapon("sword", "sword.png", "melee", 4); //weapon type, damage dealt to target
+
+Items.CreateWearable(name, sprite, onEquip, onUnequip); //equip and unequip are functions, if they return false, the action can't be done
+
+Items.CreateItem(name, sprite, onUse); //onUse is a function
+
+//GetItem?
+
+//any argument to CreateWearable, CreateContainer, createItem, etc. can be a function that is called, instead of using a value. The function's result is used, unless it's a function, then it is called, etc.
+
+Monsters.CreateMonster(key, name, sprite, monster => ???, monster => ???); //last arguments are onspawn, ontick
+
+monster.GetStatistics(); //returns a statistics instance
+monsterStats.GetStat("hp"); //monsters can have statistics too, could reuse character stats plugin
+monster.Move("north", 1); //move 1 tile north, as far as you can go
+monster.Check("north", 1, target => ...); //check what is 1 tile north of you
+monster.Attack("north", 1, target => ...); //onhit with the target
+monster.Pickup("north", 1, item => ...); //pickup an item 1 space north, or null
+monster.Drop("north", 1); //can only carry 1 item at a time, or a container
+monster.OnDeath(() => )
+monster.PositionX //read only
+monster.PositionY //read only
+
+//Terrain
+Terrain.Create(name, sprite, x, y, onEnter, onExit); //onEnter and onExit can also take moving monsters
+
+//create only "registers" a new type... to actually spawn anything, you need to call "spawn"
+
+Character.Spawn(x, y);
+Monsters.Spawn(name, x, y);
+Items.Spawn(name, x, y);
+Terrain.Spawn(name, x, y);
+
+//There can be multiple different "packages", or folders with main.toy in them which is what is called when a new game is loaded - so you can have different mods installed at once

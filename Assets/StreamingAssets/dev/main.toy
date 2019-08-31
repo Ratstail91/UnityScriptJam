@@ -1,0 +1,5 @@
+import "Monsters";
+
+Monsters.RegisterMonster("bat", "Bat", "bat.png", null);
+
+Monsters.SpawnMonster("bat", 0, 0);
