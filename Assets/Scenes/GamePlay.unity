@@ -301,7 +301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29a1aa5818cd0e2418a62b2c962a8410, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  monsterPrefabReference: {fileID: 953706006084648806, guid: 5b93937bd11839740b106b489f912254,
+  monsterPrefab: {fileID: 953706006084648806, guid: 5b93937bd11839740b106b489f912254,
     type: 3}
   loadablePackageName: dev
 --- !u!4 &1780900567

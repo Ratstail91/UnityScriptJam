@@ -37,7 +37,6 @@ monster.Check("north", 1, target => ...); //check what is 1 tile north of you
 monster.Attack("north", 1, target => ...); //onhit with the target
 monster.Pickup("north", 1, item => ...); //pickup an item 1 space north, or null
 monster.Drop("north", 1); //can only carry 1 item at a time, or a container
-monster.OnDeath(() => )
 monster.PositionX //read only
 monster.PositionY //read only
 

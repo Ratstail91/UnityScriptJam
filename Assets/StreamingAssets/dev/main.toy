@@ -1,5 +1,8 @@
+import "Standard";
 import "Monsters";
 
-Monsters.RegisterMonster("bat", "Bat", "bat.png", null);
+var start = Clock();
+
+Monsters.RegisterMonster("bat", "Bat", "img/bat.png", monster => Clock() - start < 5);
 
 Monsters.SpawnMonster("bat", 0, 0);
