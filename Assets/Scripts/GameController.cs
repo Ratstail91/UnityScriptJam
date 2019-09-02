@@ -13,10 +13,16 @@ public class GameController : MonoBehaviour {
 	public GameObject weaponPrefab = null;
 	public GameObject wearablePrefab = null;
 	public GameObject usablePrefab = null;
+	public GameObject squarePrefab = null;
+
+	//constants
+	public const float squareWidth = 0.64f;
+	public const float squareHeight = 0.64f;
 
 	//members
-	public string loadablePackageName;
+	public string loadablePackageName; //TODO: (1) Load from a script
 	List<GameObject> cachedEntities = new List<GameObject>();
+	List<GameObject> cachedSquares = new List<GameObject>();
 
 	Toy.Environment environment;
 
@@ -28,6 +34,7 @@ public class GameController : MonoBehaviour {
 
 	void FixedUpdate() {
 		cachedEntities.RemoveAll(go => go == null);
+		cachedSquares.RemoveAll(go => go == null);
 
 		TickEntities(); //TEMP: ticks
 	}
@@ -44,6 +51,16 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
+	public void CacheSquare(GameObject go) { //NOTE: done separately, so they don't tick
+		if (!cachedSquares.Contains(go)) {
+			cachedSquares.Add(go);
+
+			SquareController controller = go.GetComponent<SquareController>();
+
+			go.transform.position = new Vector3(controller.positionX * squareWidth, controller.positionY * squareHeight, 0);
+		}
+	}
+
 	//error handling
 	public void ShowError(string msg) {
 		errorDisplay.GetComponent<TextMeshProUGUI>().text += msg + "\n";
@@ -56,6 +73,14 @@ public class GameController : MonoBehaviour {
 		}
 
 		return obj;
+	}
+
+	public object RunFunction(object func, List<object> arguments) {
+		if (func is Toy.ICallable) {
+			return Toy.Runner.Run(environment, (Toy.ICallable)func, arguments);
+		}
+
+		return null;
 	}
 
 	public void LoadSprite(string fname, SpriteRenderer renderer) {

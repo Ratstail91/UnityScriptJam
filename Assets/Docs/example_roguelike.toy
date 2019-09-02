@@ -1,5 +1,5 @@
-Character.GetStatistics.GetStat("hp"); //returns the current HP
-Character.GetStatistics.SetStat("hp", 0); //sets HP to 0
+Character.GetStatistics().GetStat("hp"); //returns the current HP
+Character.GetStatistics().SetStat("hp", 0); //sets HP to 0
 
 Character.PositionX //read only
 Character.PositionY //read only
@@ -41,7 +41,7 @@ monster.PositionX //read only
 monster.PositionY //read only
 
 //Terrain
-Terrain.Create(name, sprite, x, y, onEnter, onExit); //onEnter and onExit can also take moving monsters
+Terrain.Create(key, name, sprite, onEnter, onExit); //onEnter and onExit can also take moving monsters, or be null
 
 //create only "registers" a new type... to actually spawn anything, you need to call "spawn"
 

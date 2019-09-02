@@ -568,6 +568,8 @@ MonoBehaviour:
     type: 3}
   usablePrefab: {fileID: 8579950952391527672, guid: 14571473017a3cd4f99523112f2d1fda,
     type: 3}
+  squarePrefab: {fileID: 4325549648094938645, guid: 30cb87bebde37c74598475e13c572170,
+    type: 3}
   loadablePackageName: dev
 --- !u!4 &1780900567
 Transform:

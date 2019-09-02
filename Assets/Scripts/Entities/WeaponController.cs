@@ -9,8 +9,8 @@ public class WeaponController : MonoBehaviour, IEntity, Toy.IBundle {
 	public object spriteName;
 	public object type;
 	public object damage;
-	public int positionX;
-	public int positionY;
+	public int positionX { get; set; }
+	public int positionY { get; set; }
 
 	//references
 	GameController gameController;
@@ -42,6 +42,8 @@ public class WeaponController : MonoBehaviour, IEntity, Toy.IBundle {
 
 			gameController.LoadSprite((string)realSpriteName, spriteRenderer);
 		}
+
+		gameObject.transform.position = new Vector3(GameController.squareWidth * positionX, GameController.squareHeight * positionY, 0);
 	}
 
 	string GetRealName() {

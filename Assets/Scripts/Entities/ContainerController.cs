@@ -9,8 +9,8 @@ public class ContainerController : MonoBehaviour, IEntity, Toy.IBundle {
 	public object spriteName;
 	public object type;
 	public object capacity;
-	public int positionX;
-	public int positionY;
+	public int positionX { get; set; }
+	public int positionY { get; set; }
 
 	//references
 	GameController gameController;
@@ -48,6 +48,8 @@ public class ContainerController : MonoBehaviour, IEntity, Toy.IBundle {
 
 			//TODO: (1) spew out the extra items
 		}
+
+		gameObject.transform.position = new Vector3(GameController.squareWidth * positionX, GameController.squareHeight * positionY, 0);
 	}
 
 	string GetRealName() {

@@ -4,4 +4,6 @@ using UnityEngine;
 
 public interface IEntity {
 	void Tick();
+	int positionX { get; set; }
+	int positionY { get; set; }
 }

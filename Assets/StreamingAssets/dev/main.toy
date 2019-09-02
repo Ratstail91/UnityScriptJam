@@ -1,14 +1,24 @@
 import "Standard";
 import "Monsters";
 import "Items";
+import "Dungeon";
+
+//generate the world
+Dungeon.RegisterTile("floor", "Empty", "img/tile.png", null, null);
+
+for (var i = 0; i < 5; i++) {
+	for (var j = 0; j < 5; j++) {
+		Dungeon.SpawnTile("floor", i, j);
+	}
+}
 
 //monsters
 var start = Clock();
 
 Monsters.RegisterMonster("bat", "Bat", "img/bat.png", monster => {
-	monster.Move("north", 1);
+//	monster.Move("north", 1);
 
-	monster.PositionX += 1;
+//	monster.PositionX += 1;
 
 	return Clock() - start < 5;
 });
@@ -18,8 +28,8 @@ Monsters.SpawnMonster("bat", 0, 0);
 //items
 Items.RegisterContainer("chest", "Chest", "img/chest.png", "static", 20);
 Items.RegisterWeapon("sword", "Sword", "img/sword.png", "melee", 4);
-Items.RegisterWearable("ring", "Silver Ring", "img/ring.png", () => true, () => true);
-Items.RegisterUsable("potion", "Health Potion", "img/potion.png", () => false); //returning true means keep it
+Items.RegisterWearable("ring", "Silver Ring", "img/ring.png", () => true, () => true); //TODO: (1) equip and remove
+Items.RegisterUsable("potion", "Health Potion", "img/potion.png", () => false); //TODO: (1) returning true means keep it
 
 Items.SpawnContainer("chest", 1, 1);
 Items.SpawnWeapon("sword", 2, 2);

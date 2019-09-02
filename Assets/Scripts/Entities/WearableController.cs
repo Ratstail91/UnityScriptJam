@@ -9,8 +9,8 @@ public class WearableController : MonoBehaviour, IEntity, Toy.IBundle {
 	public object spriteName;
 	public object onEquip;
 	public object onUnequip;
-	public int positionX;
-	public int positionY;
+	public int positionX { get; set; }
+	public int positionY { get; set; }
 
 	//references
 	GameController gameController;
@@ -38,6 +38,8 @@ public class WearableController : MonoBehaviour, IEntity, Toy.IBundle {
 
 			gameController.LoadSprite((string)realSpriteName, spriteRenderer);
 		}
+
+		gameObject.transform.position = new Vector3(GameController.squareWidth * positionX, GameController.squareHeight * positionY, 0);
 	}
 
 	string GetRealName() {

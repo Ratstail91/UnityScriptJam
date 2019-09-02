@@ -8,8 +8,8 @@ public class UsableController : MonoBehaviour, IEntity, Toy.IBundle {
 	public object displayName;
 	public object spriteName;
 	public object onUse; //TODO: (1) use the usable items
-	public int positionX;
-	public int positionY;
+	public int positionX { get; set; }
+	public int positionY { get; set; }
 
 	//references
 	GameController gameController;
@@ -37,6 +37,8 @@ public class UsableController : MonoBehaviour, IEntity, Toy.IBundle {
 
 			gameController.LoadSprite((string)realSpriteName, spriteRenderer);
 		}
+
+		gameObject.transform.position = new Vector3(GameController.squareWidth * positionX, GameController.squareHeight * positionY, 0);
 	}
 
 	string GetRealName() {

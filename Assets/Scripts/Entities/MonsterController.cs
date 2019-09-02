@@ -9,8 +9,8 @@ public class MonsterController : MonoBehaviour, IEntity, Toy.IBundle {
 	public object displayName;
 	public object spriteName;
 	public object onTick;
-	public int positionX;
-	public int positionY;
+	public int positionX { get; set; }
+	public int positionY { get; set; }
 
 	//references
 	GameController gameController;
@@ -43,6 +43,8 @@ public class MonsterController : MonoBehaviour, IEntity, Toy.IBundle {
 		if (!(alive is bool) || (bool)alive == false) {
 			GameObject.Destroy(gameObject);
 		}
+
+		gameObject.transform.position = new Vector3(GameController.squareWidth * positionX, GameController.squareHeight * positionY, 0);
 	}
 
 	string GetRealName() {
