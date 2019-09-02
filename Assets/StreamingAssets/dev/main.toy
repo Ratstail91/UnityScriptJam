@@ -1,7 +1,14 @@
 import "Standard";
+import "Character";
 import "Monsters";
 import "Items";
 import "Dungeon";
+
+//load the character
+Character.SetName("Kayne");
+Character.LoadSprite("img/player.png");
+Character.PositionX = 3;
+Character.PositionY = 2;
 
 //generate the world
 Dungeon.RegisterTile("floor", "Empty", "img/tile.png", null, null);

@@ -1,8 +1,8 @@
 Character.GetStatistics().GetStat("hp"); //returns the current HP
 Character.GetStatistics().SetStat("hp", 0); //sets HP to 0
 
-Character.PositionX //read only
-Character.PositionY //read only
+Character.PositionX
+Character.PositionY
 
 //GetUnmodifiedStat()?
 

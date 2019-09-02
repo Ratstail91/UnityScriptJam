@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour {
 	public GameObject wearablePrefab = null;
 	public GameObject usablePrefab = null;
 	public GameObject squarePrefab = null;
+	public GameObject playerGameObject = null;
 
 	//constants
 	public const float squareWidth = 0.64f;
@@ -89,5 +90,9 @@ public class GameController : MonoBehaviour {
 
 		texture.LoadImage(File.ReadAllBytes(filePath));
 		renderer.sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), Vector2.zero);
+	}
+
+	public GameObject GetPlayerGameObject() {
+		return playerGameObject;
 	}
 }
