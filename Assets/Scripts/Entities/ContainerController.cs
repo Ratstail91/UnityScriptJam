@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Networking;
 using Toy;
 
-public class MonsterController : MonoBehaviour, IEntity, Toy.IBundle {
+public class ContainerController : MonoBehaviour, IEntity, Toy.IBundle {
 	//public creation members
 	public object displayName;
 	public object spriteName;
-	public object onTick;
+	public object type;
+	public object capacity;
 	public int positionX;
 	public int positionY;
 
@@ -21,6 +21,8 @@ public class MonsterController : MonoBehaviour, IEntity, Toy.IBundle {
 	//members
 	object realName;
 	object realSpriteName;
+	object realType;
+	object realCapacity;
 
 	void Awake() {
 		gameController = GameObject.FindObjectOfType(typeof(GameController)) as GameController;
@@ -31,7 +33,8 @@ public class MonsterController : MonoBehaviour, IEntity, Toy.IBundle {
 	public void Tick() {
 		realName = gameController.ExtractFunctions(displayName, new List<object>() { this });
 		object newSpriteName = gameController.ExtractFunctions(spriteName, new List<object>() { this });
-		object alive = gameController.ExtractFunctions(onTick, new List<object>() { this });
+		realType = gameController.ExtractFunctions(type, new List<object>() { this });
+		object newCapacity = gameController.ExtractFunctions(capacity, new List<object>() { this });
 
 		//load a new sprite
 		if (newSpriteName != realSpriteName) {
@@ -40,8 +43,10 @@ public class MonsterController : MonoBehaviour, IEntity, Toy.IBundle {
 			gameController.LoadSprite((string)realSpriteName, spriteRenderer);
 		}
 
-		if (!(alive is bool) || (bool)alive == false) {
-			GameObject.Destroy(gameObject);
+		if (newCapacity != realCapacity) {
+			realCapacity = newCapacity;
+
+			//TODO: (1) spew out the extra items
 		}
 	}
 
@@ -58,12 +63,7 @@ public class MonsterController : MonoBehaviour, IEntity, Toy.IBundle {
 		string propertyName = (string)argument;
 
 		switch(propertyName) {
-//			case "GetStatistics":
-			case "Move": return new Move(this);
-//			case "Check":
-//			case "Attack":
-//			case "Pickup":
-//			case "Drop":
+//			TODO: (1) container methods
 			case "PositionX": return new AssignableProperty(val => this.positionX = (int)(double)val, x => (double)this.positionX);
 			case "positionY": return new AssignableProperty(val => this.positionY = (int)(double)val, x => (double)this.positionY);
 
@@ -89,56 +89,6 @@ public class MonsterController : MonoBehaviour, IEntity, Toy.IBundle {
 			get {
 				return Get(null);
 			}
-		}
-	}
-
-	public class Move : ICallable {
-		MonsterController self = null;
-
-		public Move(MonsterController self) {
-			this.self = self;
-		}
-
-		public int Arity() {
-			return 2; //direction, distance
-		}
-
-		public object Call(Interpreter interpreter, Token token, List<object> arguments) {
-			object direction = self.gameController.ExtractFunctions(arguments[0], new List<object>() { self });
-			object distance = self.gameController.ExtractFunctions(arguments[1], new List<object>() { self });
-
-			//gameController output
-			if (!(direction is string)) {
-				self.gameController.ShowError("\"direction\" must be a string");
-			}
-
-			if (!(distance is double)) {
-				self.gameController.ShowError("\"distance\" must be a number");
-			}
-
-			switch((string)direction) {
-				case "north":
-					self.positionY += (int)(double)distance;
-					break;
-
-				case "south":
-					self.positionY -= (int)(double)distance;
-					break;
-
-				case "east":
-					self.positionX += (int)(double)distance;
-					break;
-
-				case "west":
-					self.positionX -= (int)(double)distance;
-					break;
-
-				default:
-					self.gameController.ShowError((string)direction + " is not as valid direction");
-					break;
-			}
-
-			return null;
 		}
 	}
 }

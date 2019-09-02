@@ -1,8 +1,27 @@
 import "Standard";
 import "Monsters";
+import "Items";
 
+//monsters
 var start = Clock();
 
-Monsters.RegisterMonster("bat", "Bat", "img/bat.png", monster => Clock() - start < 5);
+Monsters.RegisterMonster("bat", "Bat", "img/bat.png", monster => {
+	monster.Move("north", 1);
+
+	monster.PositionX += 1;
+
+	return Clock() - start < 5;
+});
 
 Monsters.SpawnMonster("bat", 0, 0);
+
+//items
+Items.RegisterContainer("chest", "Chest", "img/chest.png", "static", 20);
+Items.RegisterWeapon("sword", "Sword", "img/sword.png", "melee", 4);
+Items.RegisterWearable("ring", "Silver Ring", "img/ring.png", () => true, () => true);
+Items.RegisterUsable("potion", "Health Potion", "img/potion.png", () => false); //returning true means keep it
+
+Items.SpawnContainer("chest", 1, 1);
+Items.SpawnWeapon("sword", 2, 2);
+Items.SpawnWearable("ring", 3, 3);
+Items.SpawnUsable("potion", 4, 4);

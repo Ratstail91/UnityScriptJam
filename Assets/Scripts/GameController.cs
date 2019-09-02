@@ -3,10 +3,16 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using TMPro;
 
 public class GameController : MonoBehaviour {
 	//public gameobject members
+	public GameObject errorDisplay = null;
 	public GameObject monsterPrefab = null;
+	public GameObject containerPrefab = null;
+	public GameObject weaponPrefab = null;
+	public GameObject wearablePrefab = null;
+	public GameObject usablePrefab = null;
 
 	//members
 	public string loadablePackageName;
@@ -36,6 +42,11 @@ public class GameController : MonoBehaviour {
 		if (!cachedEntities.Contains(go)) {
 			cachedEntities.Add(go);
 		}
+	}
+
+	//error handling
+	public void ShowError(string msg) {
+		errorDisplay.GetComponent<TextMeshProUGUI>().text += msg + "\n";
 	}
 
 	//utility functions
