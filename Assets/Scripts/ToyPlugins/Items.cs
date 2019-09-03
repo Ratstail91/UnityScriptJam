@@ -207,7 +207,7 @@ namespace Toy {
 
 					self.gameController.CacheEntity(go);
 
-					return null;
+					return new GameObjectWrapper(go);
 				}
 			}
 
@@ -239,7 +239,7 @@ namespace Toy {
 
 					self.gameController.CacheEntity(go);
 
-					return null;
+					return new GameObjectWrapper(go);
 				}
 			}
 
@@ -271,7 +271,7 @@ namespace Toy {
 
 					self.gameController.CacheEntity(go);
 
-					return null;
+					return new GameObjectWrapper(go);
 				}
 			}
 
@@ -302,7 +302,7 @@ namespace Toy {
 
 					self.gameController.CacheEntity(go);
 
-					return null;
+					return new GameObjectWrapper(go);
 				}
 			}
 		}

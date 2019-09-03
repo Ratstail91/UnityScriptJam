@@ -49,7 +49,11 @@ public class ContainerController : MonoBehaviour, IEntity, Toy.IBundle {
 			//TODO: (1) spew out the extra items
 		}
 
-		gameObject.transform.position = new Vector3(GameController.squareWidth * positionX, GameController.squareHeight * positionY, 0);
+		if (positionX == Int32.MaxValue && positionY == Int32.MaxValue) { //set by GameController
+			gameObject.transform.position = new Vector3(Int32.MaxValue, Int32.MaxValue, 0);
+		} else {
+			gameObject.transform.position = new Vector3(GameController.squareWidth * positionX, GameController.squareHeight * positionY, 0);
+		}
 	}
 
 	string GetRealName() {

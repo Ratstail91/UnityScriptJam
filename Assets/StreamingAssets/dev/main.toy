@@ -9,7 +9,11 @@ Character.SetName("Kayne");
 Character.LoadSprite("img/player.png");
 Character.PositionX = 3;
 Character.PositionY = 2;
-Character.GetStatistics().SetStat("currentHP", 10);
+Character.GetStatistics().SetStat("currentHP", 10); //DEBUG: half HP
+
+//default equipment
+Items.RegisterContainer("belt", "Belt", "img/belt.png", "carry", 4);
+Character.SetCarry(Items.SpawnContainer("belt", 0, 0));
 
 //generate the world
 Dungeon.RegisterTile("floor", "Empty", "img/tile.png", null, null);
@@ -46,7 +50,8 @@ Items.SpawnUsable("potion", 4, 4);
 /*
 TODO:
 
-* Item pickup - carry containers are switched, everything else is moved to inventory
+* Item pickup - carry containers are switched, static containers are opened
+* Anything else is moved to inventory if there is enough space
 
 * items (containers, weapons, wearables and usables)
 * combat

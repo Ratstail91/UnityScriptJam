@@ -37,6 +37,8 @@ namespace Toy {
 					case "SetName": return new SetName(this);
 					case "LoadSprite": return new LoadSprite(this);
 					case "GetStatistics": return new GetStatistics(this);
+					case "SetCarry": return new SetCarry(this);
+					case "GetCarry": return new GetCarry(this);
 					case "PositionX": return new AssignableProperty(val => playerController.positionX = (int)(double)val, x => (double)playerController.positionX);
 					case "PositionY": return new AssignableProperty(val => playerController.positionY = (int)(double)val, x => (double)playerController.positionY);
 
@@ -119,6 +121,40 @@ namespace Toy {
 
 				public object Call(Interpreter interpreter, Token token, List<object> arguments) {
 					return self.gameController.GetPlayerStatistics();
+				}
+			}
+
+			public class SetCarry : ICallable {
+				Character self = null;
+
+				public SetCarry(Character self) {
+					this.self = self;
+				}
+
+				public int Arity() {
+					return 1;
+				}
+
+				public object Call(Interpreter interpreter, Token token, List<object> arguments) {
+					self.gameController.SetPlayerCarryGameObject( ((GameObjectWrapper)arguments[0]).GetSelf() );
+
+					return null;
+				}
+			}
+
+			public class GetCarry : ICallable {
+				Character self = null;
+
+				public GetCarry(Character self) {
+					this.self = self;
+				}
+
+				public int Arity() {
+					return 0;
+				}
+
+				public object Call(Interpreter interpreter, Token token, List<object> arguments) {
+					return new GameObjectWrapper(self.gameController.GetPlayerCarryGameObject());
 				}
 			}
 		}

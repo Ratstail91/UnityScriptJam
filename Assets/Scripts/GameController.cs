@@ -24,7 +24,8 @@ public class GameController : MonoBehaviour {
 	public string loadablePackageName; //TODO: (1) Load from a script
 	List<GameObject> cachedEntities = new List<GameObject>();
 	List<GameObject> cachedSquares = new List<GameObject>();
-	public Statistics playerStatistics = new Statistics();
+	Statistics playerStatistics = new Statistics();
+	GameObject playerCarryObject = null;
 
 	Toy.Environment environment;
 
@@ -139,5 +140,23 @@ public class GameController : MonoBehaviour {
 
 	public Statistics GetPlayerStatistics() {
 		return playerStatistics;
+	}
+
+	public GameObject SetPlayerCarryGameObject(GameObject go) {
+		ContainerController controller = go.GetComponent<ContainerController>();
+
+		if (controller == null) {
+			ShowError("Can't carry that item: " + go.name);
+			return null;
+		}
+
+		controller.positionX = Int32.MaxValue;
+		controller.positionY = Int32.MaxValue;
+
+		return playerCarryObject = go;
+	}
+
+	public GameObject GetPlayerCarryGameObject() {
+		return playerCarryObject;
 	}
 }
