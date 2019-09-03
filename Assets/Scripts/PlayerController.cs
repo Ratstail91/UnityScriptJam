@@ -43,6 +43,7 @@ public class PlayerController : MonoBehaviour {
 	float verticalMovement = 0f;
 	float lastMovementTime = float.NegativeInfinity;
 	const float deadZone = 0.25f;
+	int ticks = 0;
 
 	void Awake() {
 		gameController = GameObject.FindObjectOfType(typeof(GameController)) as GameController;
@@ -84,6 +85,9 @@ public class PlayerController : MonoBehaviour {
 				positionX += horizontal;
 				positionY += vertical;
 			}
+
+			//allow another tick
+			ticks++;
 		}
 
 		if (Mathf.Abs(horizontalMovement) < deadZone && Mathf.Abs(verticalMovement) < deadZone) {
@@ -110,5 +114,13 @@ public class PlayerController : MonoBehaviour {
 		}
 
 		return "null";
+	}
+
+	public int GetAllowedTicks() {
+		int ret = ticks;
+
+		ticks = 0;
+
+		return ret;
 	}
 }

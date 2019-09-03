@@ -50,16 +50,28 @@ public class GameController : MonoBehaviour {
 		environment = new Toy.Environment();
 
 		Toy.Runner.RunFile(environment, Application.streamingAssetsPath + "/" + loadablePackageName + "/main.toy");
+
+		//tick once to allow loading
+		TickEntities();
 	}
 
 	void FixedUpdate() {
 		cachedEntities.RemoveAll(go => go == null);
 		cachedSquares.RemoveAll(go => go == null);
 
-		TickEntities(); //TEMP: ticks
+		int ticks = playerGameObject.GetComponent<PlayerController>().GetAllowedTicks();
+
+		while(ticks > 0) {
+			TickEntities();
+			ticks--;
+		}
 	}
 
 	public void TickEntities() {
+		playerStatistics.SetStat("currentFull", (double)playerStatistics.GetStat("currentFull") - (double)playerStatistics.GetStat("currentHunger"));
+
+		//TODO: kill the player if they're out of "currentFull"
+
 		foreach(GameObject go in cachedEntities) {
 			go.GetComponent<IEntity>().Tick();
 		}

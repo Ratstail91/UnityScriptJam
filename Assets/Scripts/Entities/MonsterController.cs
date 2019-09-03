@@ -118,26 +118,34 @@ public class MonsterController : MonoBehaviour, IEntity, Toy.IBundle {
 				self.gameController.ShowError("\"distance\" must be a number");
 			}
 
+			int posX = self.positionX;
+			int posY = self.positionY;
+
 			switch((string)direction) {
 				case "north":
-					self.positionY += (int)(double)distance;
+					posY += (int)(double)distance;
 					break;
 
 				case "south":
-					self.positionY -= (int)(double)distance;
+					posY -= (int)(double)distance;
 					break;
 
 				case "east":
-					self.positionX += (int)(double)distance;
+					posX += (int)(double)distance;
 					break;
 
 				case "west":
-					self.positionX -= (int)(double)distance;
+					posX -= (int)(double)distance;
 					break;
 
 				default:
 					self.gameController.ShowError((string)direction + " is not as valid direction");
 					break;
+			}
+
+			if (self.gameController.CheckIsSquare(posX, posY)) {
+				self.positionX = posX;
+				self.positionY = posY;
 			}
 
 			return null;

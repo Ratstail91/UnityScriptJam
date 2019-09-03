@@ -24,11 +24,9 @@ for (var i = 0; i < 5; i++) {
 var start = Clock();
 
 Monsters.RegisterMonster("bat", "Bat", "img/bat.png", monster => {
-//	monster.Move("north", 1);
+	monster.Move("north", 1);
 
-//	monster.PositionX += 1;
-
-	return Clock() - start < 5;
+	return true;
 });
 
 Monsters.SpawnMonster("bat", 0, 0);
@@ -43,3 +41,17 @@ Items.SpawnContainer("chest", 1, 1);
 Items.SpawnWeapon("sword", 2, 2);
 Items.SpawnWearable("ring", 3, 3);
 Items.SpawnUsable("potion", 4, 4);
+
+//TODO: (1) fog of war?
+/*
+TODO:
+
+* Item pickup - carry containers are switched, everything else is moved to inventory
+
+* items (containers, weapons, wearables and usables)
+* combat
+* magic?
+* HUD to display more game info on a selected object
+* Build a default game package with Toy
+
+*/
