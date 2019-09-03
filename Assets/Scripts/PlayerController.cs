@@ -79,8 +79,11 @@ public class PlayerController : MonoBehaviour {
 				vertical = verticalMovement > 0 ? -1 : 1;
 			}
 
-			positionX += horizontal;
-			positionY += vertical;
+			//check if this position is available
+			if (gameController.CheckIsSquare(positionX + horizontal, positionY + vertical)) {
+				positionX += horizontal;
+				positionY += vertical;
+			}
 		}
 
 		if (Mathf.Abs(horizontalMovement) < deadZone && Mathf.Abs(verticalMovement) < deadZone) {

@@ -24,10 +24,29 @@ public class GameController : MonoBehaviour {
 	public string loadablePackageName; //TODO: (1) Load from a script
 	List<GameObject> cachedEntities = new List<GameObject>();
 	List<GameObject> cachedSquares = new List<GameObject>();
+	public Statistics playerStatistics = new Statistics();
 
 	Toy.Environment environment;
 
 	void Awake() {
+		//setup the player's default stats
+		playerStatistics.SetStat("baseHP", (double)20);
+		playerStatistics.SetStat("baseMP", (double)10);
+		playerStatistics.SetStat("baseFull", (double)50);
+		playerStatistics.SetStat("baseHunger", (double)1);
+
+		//set the maximum stats
+		playerStatistics.SetStat("maxHP", playerStatistics.GetStat("baseHP"));
+		playerStatistics.SetStat("maxMP", playerStatistics.GetStat("baseMP"));
+		playerStatistics.SetStat("maxFull", playerStatistics.GetStat("baseFull"));
+
+		//set the current stats
+		playerStatistics.SetStat("currentHP", playerStatistics.GetStat("maxHP"));
+		playerStatistics.SetStat("currentMP", playerStatistics.GetStat("maxMP"));
+		playerStatistics.SetStat("currentFull", playerStatistics.GetStat("maxFull"));
+		playerStatistics.SetStat("currentHunger", playerStatistics.GetStat("baseHunger"));
+
+		//run the code
 		environment = new Toy.Environment();
 
 		Toy.Runner.RunFile(environment, Application.streamingAssetsPath + "/" + loadablePackageName + "/main.toy");
@@ -62,6 +81,16 @@ public class GameController : MonoBehaviour {
 		}
 	}
 
+	public bool CheckIsSquare(int x, int y) {
+		GameObject sqr = cachedSquares.Find(square => {
+			SquareController controller = square.GetComponent<SquareController>();
+
+			return controller.positionX == x && controller.positionY == y;
+		});
+
+		return sqr != null;
+	}
+
 	//error handling
 	public void ShowError(string msg) {
 		errorDisplay.GetComponent<TextMeshProUGUI>().text += msg + "\n";
@@ -94,5 +123,9 @@ public class GameController : MonoBehaviour {
 
 	public GameObject GetPlayerGameObject() {
 		return playerGameObject;
+	}
+
+	public Statistics GetPlayerStatistics() {
+		return playerStatistics;
 	}
 }

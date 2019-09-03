@@ -36,7 +36,7 @@ namespace Toy {
 				switch(propertyName) {
 					case "SetName": return new SetName(this);
 					case "LoadSprite": return new LoadSprite(this);
-					//TODO: (1) GetStatistics
+					case "GetStatistics": return new GetStatistics(this);
 					case "PositionX": return new AssignableProperty(val => playerController.positionX = (int)(double)val, x => (double)playerController.positionX);
 					case "PositionY": return new AssignableProperty(val => playerController.positionY = (int)(double)val, x => (double)playerController.positionY);
 
@@ -103,6 +103,22 @@ namespace Toy {
 					self.playerController.UpdateMembers();
 
 					return null;
+				}
+			}
+
+			public class GetStatistics : ICallable {
+				Character self = null;
+
+				public GetStatistics(Character self) {
+					this.self = self;
+				}
+
+				public int Arity() {
+					return 0;
+				}
+
+				public object Call(Interpreter interpreter, Token token, List<object> arguments) {
+					return self.gameController.GetPlayerStatistics();
 				}
 			}
 		}
