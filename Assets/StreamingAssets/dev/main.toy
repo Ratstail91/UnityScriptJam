@@ -46,6 +46,12 @@ Items.SpawnWeapon("sword", 2, 2);
 Items.SpawnWearable("ring", 3, 3);
 Items.SpawnUsable("potion", 4, 4);
 
+Character.GetCarry().GetContents().Push(Items.SpawnWeapon("sword", 0, 0));
+Character.GetCarry().GetContents().Push(Items.SpawnWeapon("sword", 0, 0));
+Character.GetCarry().GetContents().Push(Items.SpawnWeapon("sword", 0, 0));
+
+Character.GetCarry().GetContents().Push(Items.SpawnWeapon("sword", 0, 0));
+
 //TODO: (1) fog of war?
 /*
 TODO:

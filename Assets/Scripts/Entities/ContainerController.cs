@@ -22,7 +22,7 @@ public class ContainerController : MonoBehaviour, IEntity, Toy.IBundle {
 	public object realName { get; private set; }
 	public object realSpriteName { get; private set; }
 	public object realType { get; private set; }
-	public object realCapacity { get; private set; }
+	public object realCapacity { get; private set; } //TODO: (1) type checking in get
 
 	List<object> contents = null; //NOTE: (1) will contain GameObjectWrappers - at least it should
 
@@ -64,12 +64,16 @@ public class ContainerController : MonoBehaviour, IEntity, Toy.IBundle {
 		}
 	}
 
+	public List<object> GetContents() {
+		return contents;
+	}
+
 	//IBundle
 	public object Property(Toy.Interpreter interpreter, Toy.Token token, object argument) {
 		string propertyName = (string)argument;
 
 		switch(propertyName) {
-			case "GetContents": return new GetContents(this);
+			case "GetContents": return new GetContentsCallable(this);
 
 			case "GetDisplayName": return new GetDisplayNameCallable(this);
 			case "GetSpriteName": return new GetSpriteNameCallable(this);
@@ -105,10 +109,10 @@ public class ContainerController : MonoBehaviour, IEntity, Toy.IBundle {
 	}
 
 	//ICallable properties
-	public class GetContents : ICallable {
+	public class GetContentsCallable : ICallable {
 		ContainerController self = null;
 
-		public GetContents(ContainerController self) {
+		public GetContentsCallable(ContainerController self) {
 			this.self = self;
 		}
 

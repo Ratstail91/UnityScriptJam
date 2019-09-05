@@ -154,7 +154,7 @@ namespace Toy {
 				}
 
 				public object Call(Interpreter interpreter, Token token, List<object> arguments) {
-					return new GameObjectWrapper(self.gameController.GetPlayerCarryGameObject());
+					return self.gameController.GetPlayerCarryGameObject().GetComponent<ContainerController>();
 				}
 			}
 		}
