@@ -19,8 +19,8 @@ public class MonsterController : MonoBehaviour, IEntity, Toy.IBundle {
 	SpriteRenderer spriteRenderer;
 
 	//members
-	object realName;
-	object realSpriteName;
+	public object realName { get; private set; }
+	public object realSpriteName { get; private set; }
 
 	void Awake() {
 		gameController = GameObject.FindObjectOfType(typeof(GameController)) as GameController;
@@ -47,14 +47,6 @@ public class MonsterController : MonoBehaviour, IEntity, Toy.IBundle {
 		gameObject.transform.position = new Vector3(GameController.squareWidth * positionX, GameController.squareHeight * positionY, 0);
 	}
 
-	string GetRealName() {
-		if (realName is string) {
-			return (string)realName;
-		}
-
-		return "null";
-	}
-
 	//IBundle
 	public object Property(Toy.Interpreter interpreter, Toy.Token token, object argument) {
 		string propertyName = (string)argument;
@@ -66,8 +58,12 @@ public class MonsterController : MonoBehaviour, IEntity, Toy.IBundle {
 //			case "Attack":
 //			case "Pickup":
 //			case "Drop":
+
+			case "GetDisplayName": return new GetDisplayNameCallable(this);
+			case "GetSpriteName": return new GetSpriteNameCallable(this);
+
 			case "PositionX": return new AssignableProperty(val => this.positionX = (int)(double)val, x => (double)this.positionX);
-			case "positionY": return new AssignableProperty(val => this.positionY = (int)(double)val, x => (double)this.positionY);
+			case "PositionY": return new AssignableProperty(val => this.positionY = (int)(double)val, x => (double)this.positionY);
 
 			default:
 				throw new ErrorHandler.RuntimeError(token, "Unknown property '" + propertyName + "'");
@@ -149,6 +145,38 @@ public class MonsterController : MonoBehaviour, IEntity, Toy.IBundle {
 			}
 
 			return null;
+		}
+	}
+
+	public class GetDisplayNameCallable : ICallable {
+		MonsterController self = null;
+
+		public GetDisplayNameCallable(MonsterController self) {
+			this.self = self;
+		}
+
+		public int Arity() {
+			return 0;
+		}
+
+		public object Call(Interpreter interpreter, Token token, List<object> arguments) {
+			return self.realName;
+		}
+	}
+
+	public class GetSpriteNameCallable : ICallable {
+		MonsterController self = null;
+
+		public GetSpriteNameCallable(MonsterController self) {
+			this.self = self;
+		}
+
+		public int Arity() {
+			return 0;
+		}
+
+		public object Call(Interpreter interpreter, Token token, List<object> arguments) {
+			return self.realSpriteName;
 		}
 	}
 }

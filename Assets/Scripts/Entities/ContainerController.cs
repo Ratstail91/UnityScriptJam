@@ -19,15 +19,19 @@ public class ContainerController : MonoBehaviour, IEntity, Toy.IBundle {
 	SpriteRenderer spriteRenderer;
 
 	//members
-	object realName;
-	object realSpriteName;
-	object realType;
-	object realCapacity;
+	public object realName { get; private set; }
+	public object realSpriteName { get; private set; }
+	public object realType { get; private set; }
+	public object realCapacity { get; private set; }
+
+	List<object> contents = null; //NOTE: (1) will contain GameObjectWrappers - at least it should
 
 	void Awake() {
 		gameController = GameObject.FindObjectOfType(typeof(GameController)) as GameController;
 
 		spriteRenderer = GetComponent<SpriteRenderer>();
+
+		contents = new List<object>();
 	}
 
 	public void Tick() {
@@ -46,7 +50,11 @@ public class ContainerController : MonoBehaviour, IEntity, Toy.IBundle {
 		if (newCapacity != realCapacity) {
 			realCapacity = newCapacity;
 
-			//TODO: (1) spew out the extra items
+			//TODO: (1) spew out the extra items (am I being carried?)
+		}
+
+		if (contents.Count > (double)realCapacity) {
+			//TODO: (1) spew out the extra items (am I being carried?)
 		}
 
 		if (positionX == Int32.MaxValue && positionY == Int32.MaxValue) { //set by GameController
@@ -56,22 +64,20 @@ public class ContainerController : MonoBehaviour, IEntity, Toy.IBundle {
 		}
 	}
 
-	string GetRealName() {
-		if (realName is string) {
-			return (string)realName;
-		}
-
-		return "null";
-	}
-
 	//IBundle
 	public object Property(Toy.Interpreter interpreter, Toy.Token token, object argument) {
 		string propertyName = (string)argument;
 
 		switch(propertyName) {
-//			TODO: (1) container methods
+			case "GetContents": return new GetContents(this);
+
+			case "GetDisplayName": return new GetDisplayNameCallable(this);
+			case "GetSpriteName": return new GetSpriteNameCallable(this);
+			case "GetType": return new GetTypeCallable(this);
+			case "GetCapacity": return new GetCapacityCallable(this);
+
 			case "PositionX": return new AssignableProperty(val => this.positionX = (int)(double)val, x => (double)this.positionX);
-			case "positionY": return new AssignableProperty(val => this.positionY = (int)(double)val, x => (double)this.positionY);
+			case "PositionY": return new AssignableProperty(val => this.positionY = (int)(double)val, x => (double)this.positionY);
 
 			default:
 				throw new ErrorHandler.RuntimeError(token, "Unknown property '" + propertyName + "'");
@@ -95,6 +101,87 @@ public class ContainerController : MonoBehaviour, IEntity, Toy.IBundle {
 			get {
 				return Get(null);
 			}
+		}
+	}
+
+	//ICallable properties
+	public class GetContents : ICallable {
+		ContainerController self = null;
+
+		public GetContents(ContainerController self) {
+			this.self = self;
+		}
+
+		public int Arity() {
+			return 0;
+		}
+
+		public object Call(Interpreter interpreter, Token token, List<object> arguments) {
+			return new Toy.Plugin.Array.ArrayInstance(self.contents);
+		}
+	}
+
+	public class GetDisplayNameCallable : ICallable {
+		ContainerController self = null;
+
+		public GetDisplayNameCallable(ContainerController self) {
+			this.self = self;
+		}
+
+		public int Arity() {
+			return 0;
+		}
+
+		public object Call(Interpreter interpreter, Token token, List<object> arguments) {
+			return self.realName;
+		}
+	}
+
+	public class GetSpriteNameCallable : ICallable {
+		ContainerController self = null;
+
+		public GetSpriteNameCallable(ContainerController self) {
+			this.self = self;
+		}
+
+		public int Arity() {
+			return 0;
+		}
+
+		public object Call(Interpreter interpreter, Token token, List<object> arguments) {
+			return self.realSpriteName;
+		}
+	}
+
+	public class GetTypeCallable : ICallable {
+		ContainerController self = null;
+
+		public GetTypeCallable(ContainerController self) {
+			this.self = self;
+		}
+
+		public int Arity() {
+			return 0;
+		}
+
+		public object Call(Interpreter interpreter, Token token, List<object> arguments) {
+			return self.type;
+		}
+	}
+
+	public class GetCapacityCallable : ICallable {
+		ContainerController self = null;
+
+		public GetCapacityCallable(ContainerController self) {
+			this.self = self;
+		}
+
+		public int Arity() {
+			return 0;
+		}
+
+		public object Call(Interpreter interpreter, Token token, List<object> arguments) {
+			return self.realCapacity;
 		}
 	}
 }

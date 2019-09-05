@@ -15,7 +15,17 @@ Character.PositionY
 //every item begins with "name" and "sprite"
 
 //containers can't contain containers
-Items.CreateContainer("belt", sprite, "carry", 4); //can be carried, and holds 4 other items
+
+Character.SetCarry(Items.SpawnContainer("belt", 0, 0));
+
+Character.SetCarry(Items.CreateContainer("belt", sprite, "carry", 4)); //can be carried, and holds 4 other items
+
+//What does a carry item need?
+Character.GetCarry() //returns the carry object
+	.GetContents() //returns a new array instance
+	... //operate on that instance
+
+
 Items.CreateContainer("chest", sprite, "static", 20); //
 
 Items.CreateWeapon("sword", "sword.png", "melee", 4); //weapon type, damage dealt to target

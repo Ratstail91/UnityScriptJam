@@ -19,10 +19,10 @@ public class WeaponController : MonoBehaviour, IEntity, Toy.IBundle {
 	SpriteRenderer spriteRenderer;
 
 	//members
-	object realName;
-	object realSpriteName;
-	object realType;
-	object realDamage;
+	public object realName { get; private set; }
+	public object realSpriteName { get; private set; }
+	public object realType { get; private set; }
+	public object realDamage { get; private set; }
 
 	void Awake() {
 		gameController = GameObject.FindObjectOfType(typeof(GameController)) as GameController;
@@ -46,37 +46,18 @@ public class WeaponController : MonoBehaviour, IEntity, Toy.IBundle {
 		gameObject.transform.position = new Vector3(GameController.squareWidth * positionX, GameController.squareHeight * positionY, 0);
 	}
 
-	string GetRealName() {
-		if (realName is string) {
-			return (string)realName;
-		}
-
-		return "null";
-	}
-
-	string GetRealType() {
-		if (realType is string) {
-			return (string)realType;
-		}
-
-		return "null";
-	}
-
-	int GetRealDamage() {
-		if (realDamage is double) {
-			return (int)(double)realDamage;
-		}
-
-		return -1;
-	}
-
 	//IBundle
 	public object Property(Toy.Interpreter interpreter, Toy.Token token, object argument) {
 		string propertyName = (string)argument;
 
 		switch(propertyName) {
+			case "GetDisplayName": return new GetDisplayNameCallable(this);
+			case "GetSpriteName": return new GetSpriteNameCallable(this);
+			case "GetType": return new GetTypeCallable(this);
+			case "GetDamage": return new GetDamageCallable(this);
+
 			case "PositionX": return new AssignableProperty(val => this.positionX = (int)(double)val, x => (double)this.positionX);
-			case "positionY": return new AssignableProperty(val => this.positionY = (int)(double)val, x => (double)this.positionY);
+			case "PositionY": return new AssignableProperty(val => this.positionY = (int)(double)val, x => (double)this.positionY);
 
 			default:
 				throw new ErrorHandler.RuntimeError(token, "Unknown property '" + propertyName + "'");
@@ -100,6 +81,70 @@ public class WeaponController : MonoBehaviour, IEntity, Toy.IBundle {
 			get {
 				return Get(null);
 			}
+		}
+	}
+
+	public class GetDisplayNameCallable : ICallable {
+		WeaponController self = null;
+
+		public GetDisplayNameCallable(WeaponController self) {
+			this.self = self;
+		}
+
+		public int Arity() {
+			return 0;
+		}
+
+		public object Call(Interpreter interpreter, Token token, List<object> arguments) {
+			return self.realName;
+		}
+	}
+
+	public class GetSpriteNameCallable : ICallable {
+		WeaponController self = null;
+
+		public GetSpriteNameCallable(WeaponController self) {
+			this.self = self;
+		}
+
+		public int Arity() {
+			return 0;
+		}
+
+		public object Call(Interpreter interpreter, Token token, List<object> arguments) {
+			return self.realSpriteName;
+		}
+	}
+
+	public class GetTypeCallable : ICallable {
+		WeaponController self = null;
+
+		public GetTypeCallable(WeaponController self) {
+			this.self = self;
+		}
+
+		public int Arity() {
+			return 0;
+		}
+
+		public object Call(Interpreter interpreter, Token token, List<object> arguments) {
+			return self.type;
+		}
+	}
+
+	public class GetDamageCallable : ICallable {
+		WeaponController self = null;
+
+		public GetDamageCallable(WeaponController self) {
+			this.self = self;
+		}
+
+		public int Arity() {
+			return 0;
+		}
+
+		public object Call(Interpreter interpreter, Token token, List<object> arguments) {
+			return self.realDamage;
 		}
 	}
 }

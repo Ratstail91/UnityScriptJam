@@ -150,6 +150,8 @@ public class GameController : MonoBehaviour {
 			return null;
 		}
 
+		//TODO: (1) must be a carry type
+
 		controller.positionX = Int32.MaxValue;
 		controller.positionY = Int32.MaxValue;
 
